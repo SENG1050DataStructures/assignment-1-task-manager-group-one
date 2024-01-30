@@ -37,7 +37,7 @@ int main(void)
 
 		else
 		{
-			switch (commend) 
+			switch (command) 
 			{
 			case 1:
 				//add Task
@@ -49,7 +49,7 @@ int main(void)
 				//Delete Find Task
 				break;
 			case 4:
-				//Delete Print Tasks
+				printTasks(head);
 				break;
 			case 5:
 				//Free memory
@@ -66,7 +66,7 @@ void printTasks(struct Task head)
 	{
 		printf("Task ID: %d\n Title: %s\n Description: %s\n", current.TaskId, current.Title, current.Description);
 		printf("-------------------------------------------");
-		current = *(current.NextTask)
+		current = *(current.NextTask);
 	}
 
 	printf("Task ID: %d\n Title: %s\n Description: %s\n", current.TaskId, current.Title, current.Description);
