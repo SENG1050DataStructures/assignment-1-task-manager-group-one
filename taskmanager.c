@@ -2,20 +2,21 @@
 #include <stdlib.h>
 #pragma warning(disable: 4996)
 
-#define KTitleLen 101
-#define KDescriptionLen 101
+#define KTaskMaxLength 101
 
 struct Task {
     int TaskId;
-    char Title[KTitleLen];
-    char Description[KDescriptionLen];
-    struct Task* NextTask;
+    char Title[KTaskMaxLength];
+    char Description[KTaskMaxLength];
+    struct Task* NextTask;	
 };
+
+void printTasks(struct Task head);
 
 int main(void)
 {
-	char userInput[KTitleLen] = "";
-	int commend = 0;
+	char userInput[KTaskMaxLength] = "";
+	int command = 0;
 	struct Task* head = NULL;
 
 	while (1)
@@ -28,9 +29,9 @@ int main(void)
 
 		fgets(userInput, sizeof userInput, stdin);
 		
-		if ((sscanf(userInput, "%d", &commend) != 1) || (commend > 5) || (commend < 1))
+		if ((sscanf(userInput, "%d", &command) != 1) || (command > 5) || (command < 1))
 		{
-			printf("please enter vaild input\n\n");
+			printf("Please enter valid input.\n\n");
 			continue;
 		}
 
@@ -56,4 +57,18 @@ int main(void)
 			}
 		}
 	}
+}
+
+void printTasks(struct Task head)
+{
+	struct Task current = head;
+	while (current.NextTask != NULL)
+	{
+		printf("Task ID: %d\n Title: %s\n Description: %s\n", current.TaskId, current.Title, current.Description);
+		printf("-------------------------------------------");
+		current = *(current.NextTask)
+	}
+
+	printf("Task ID: %d\n Title: %s\n Description: %s\n", current.TaskId, current.Title, current.Description);
+	printf("-------------------------------------------/n/n");
 }
