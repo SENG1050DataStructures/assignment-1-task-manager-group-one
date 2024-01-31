@@ -16,6 +16,10 @@ struct Task CreateTask();
 void printTasks(struct Task head);
 void freeList(struct Task* head);
 
+/* User Input function prototypes */
+int getNumber(const char[], int*);
+int getString(const char[], char*);
+
 int main(void)
 {
 	char userInput[KTaskMaxLength] = "";
@@ -198,4 +202,44 @@ void freeList(struct Task* head)
 		free(current);
 		current = nextTask;
 	}
+}
+
+/*
+* Function:		getNumber()
+* Description:	Requests a number input from the user. If the input is a valid integer, the input
+*				is saved into the int* arguement and a value of 0 is returned. An invalid input
+*				returns an error value of -1.
+* Parameters:	const char[] : The prompt given to the user.
+*				int* : Holds the value of the user input.
+* Returns:		int : Function status. 0 if the function finished without error, otherwise -1.
+*/
+int getNumber(const char inputPrompt[], int* result) {
+	char input[kMaxInputLength];
+	printf("%s >> ", inputPrompt);
+	fgets(input, kMaxInputLength, stdin);
+	if (sscanf(input, "%d", result) != 1) {
+		/* printf("<ADD ERROR MESSAGE HERE>\n"); */
+		return -1;
+	}
+	return 0;
+}
+
+/*
+* Function:		getString()
+* Description:	Requests a string input from the user. If the input is a valid string, the input
+*				is saved into the char* arguement and a value of 0 is returned. An invalid input
+*				returns an error value of -1.
+* Parameters:	const char[] : The prompt given to the user.
+*				char* : Holds the value of the user input.
+* Returns:		int : Function status. 0 if the function finished without error, otherwise -1.
+*/
+int getString(const char message[], char* result) {
+	char input[kMaxInputLength];
+	printf("%s >> ", message);
+	fgets(input, kMaxInputLength, stdin);
+	if (sscanf(input, "%s", result) != 1) {
+		/* printf("<ADD ERROR MESSAGE HERE>\n"); */
+		return -1;
+	}
+	return 0;
 }
