@@ -22,8 +22,11 @@ int getString(const char[], char*);
 
 int main(void)
 {
+	/* Declare User Input variables */
 	char userInput[KTaskMaxLength] = "";
 	int command = 0;
+
+	/* Linked List variables */
 	struct Task dataStructureProject = { 1, "Project", "Work in a group on some code", NULL };
 	struct Task exampleFoot = { 2, "Title", "Description", NULL };
 	//struct Task* head = &dataStructureProject;(joe:I changed to below)
@@ -32,67 +35,60 @@ int main(void)
 	struct Task* tail = NULL;
 	int checker = 0;
 	dataStructureProject.NextTask = &exampleFoot;
-	int quitProgram = 0;
 
-	while (quitProgram == 0)
+	while (command != 5)
 	{
 		printf("Press 1 to Add Task\n");
 		printf("Press 2 to Delete Task\n");
 		printf("Press 3 to Find Task\n");
 		printf("Press 4 to Print Tasks\n");
 		printf("Press 5 to Exit\n");
-		printf("Your choice: ");
 
-		fgets(userInput, sizeof userInput, stdin);
-
-		if ((sscanf(userInput, "%d", &command) != 1) || (command > 5) || (command < 1))
-		{
-			printf("Please enter valid input.\n\n");
-			continue;
+		while (getNumber("Your choice", &command) != 1) {
+			printf("--Input was not a valid integer--\n\n");
 		}
 
-		else
+		switch (command)
 		{
-			switch (command)
+		case 1:
+			if (0 == checker)
 			{
-			case 1:
-				if (0 == checker)
-				{
 
-					head = AddTask(tail, CreateTask());
-					current = head;
-					checker++;
-				}
-				else
-				{
-					tail = AddTask(tail, CreateTask());
-					current->NextTask = tail;
-					current = tail;
-				}
-				break;
-				break;
-			case 2:
-				//Delete Task & Free memory
-				break;
-			case 3:
-				//Delete Find Task
-				break;
-			case 4:
-				if (head == NULL)
-				{
-					printf("\n----------------------------------------------------------------------------\n");
-					printf("There are currently no tasks defined. Please add some tasks before printing. \n");
-					printf("----------------------------------------------------------------------------\n\n");
-				}
-				else
-				{
-					printTasks(*head);
-				}
-				break;
-			case 5:
-				freeList(head);
-				quitProgram = 1;
+				head = AddTask(tail, CreateTask());
+				current = head;
+				checker++;
 			}
+			else
+			{
+				tail = AddTask(tail, CreateTask());
+				current->NextTask = tail;
+				current = tail;
+			}
+			break;
+		case 2:
+			//Delete Task & Free memory
+			break;
+		case 3:
+			//Delete Find Task
+			break;
+		case 4:
+			if (head == NULL)
+			{
+				printf("\n----------------------------------------------------------------------------\n");
+				printf("There are currently no tasks defined. Please add some tasks before printing. \n");
+				printf("----------------------------------------------------------------------------\n\n");
+			}
+			else
+			{
+				printTasks(*head);
+			}
+			break;
+		case 5:
+			freeList(head);
+			break;
+		default:
+			printf("--Option %d does not exist--\n\n", command);
+			break;
 		}
 	}
 	return 0;
