@@ -13,6 +13,7 @@ struct Task {
 
 struct Task* AddTask(struct Task* tail, struct Task taskToAdd);
 struct Task CreateTask();
+struct Task* findTaskByIndex(struct Task*, int);
 void printTasks(struct Task head);
 void freeList(struct Task* head);
 
@@ -68,7 +69,14 @@ int main(void)
 			//Delete Task & Free memory
 			break;
 		case 3:
-			//Delete Find Task
+			while (getNumber("Enter the index you want to display", &command) != 0) {
+				printf("--Input was not a valid integer--\n\n");
+			}
+			if ((current = findTaskByIndex(head, command)) == NULL) {
+				printf("--The Task at index %d cannot be found--", command);
+				continue;
+			}
+			// print task info to display
 			break;
 		case 4:
 			if (head == NULL)
@@ -132,6 +140,25 @@ struct Task* AddTask(struct Task* tail, struct Task taskToAdd)
 	newTask->NextTask = NULL;
 
 	return newTask;
+}
+
+/*
+* Function:		findTaskByIndex()
+* Description:	Iterates through the linked list, starting from the head, until the desired index
+				is reached, returning a pointer to that index.
+* Parameters:	struct Task* : Task pointer for the head of the linked list
+*				int : The index of the Task pointer to be returned
+* Returns:		struct Task* : Task pointer 
+*/
+struct Task* findTaskByIndex(struct Task* head, int index) {
+	Task* current = head;
+	for (int i = 0; i > index; i++) {
+		if (current->NextTask == NULL) {
+			return NULL;
+		}
+		current = current->NextTask;
+	}
+	return current;
 }
 
 void printTasks(struct Task head)
