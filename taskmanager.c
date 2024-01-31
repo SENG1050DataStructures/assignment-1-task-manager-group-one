@@ -11,6 +11,8 @@ struct Task {
 	struct Task* NextTask;
 };
 
+struct Task* AddTask(struct Task* tail, struct Task taskToAdd);
+struct Task CreateTask();
 void printTasks(struct Task head);
 void freeList(struct Task* head);
 
@@ -20,7 +22,11 @@ int main(void)
 	int command = 0;
 	struct Task dataStructureProject = { 1, "Project", "Work in a group on some code", NULL };
 	struct Task exampleFoot = { 2, "Title", "Description", NULL };
-	struct Task* head = &dataStructureProject;
+	//struct Task* head = &dataStructureProject;(joe:I changed to below)
+	struct Task* head = NULL;
+	struct Task* current = NULL;
+	struct Task* tail = NULL;
+	int checker = 0;
 	dataStructureProject.NextTask = &exampleFoot;
 	int quitProgram = 0;
 
@@ -46,7 +52,20 @@ int main(void)
 			switch (command)
 			{
 			case 1:
-				//add Task
+				if (0 == checker)
+				{
+
+					head = AddTask(tail, CreateTask());
+					current = head;
+					checker++;
+				}
+				else
+				{
+					tail = AddTask(tail, CreateTask());
+					current->NextTask = tail;
+					current = tail;
+				}
+				break;
 				break;
 			case 2:
 				//Delete Task & Free memory
@@ -73,6 +92,84 @@ int main(void)
 		}
 	}
 	return 0;
+}
+
+struct Task CreateTask()
+{
+	struct Task task;
+	char userInput[KTaskMaxLength] = "";
+
+	printf("enter taskId?>>>");
+
+	while (1)
+	{
+
+		fgets(userInput, sizeof userInput, stdin);
+		if (sscanf(userInput, "%d", &(task.TaskId)) == 1)
+		{
+			break;
+		}
+
+		else
+		{
+			printf("please enter vaild input");
+		}
+	}
+
+	printf("enter Title?>>>");
+
+	while (1)
+	{
+		fgets(userInput, sizeof userInput, stdin);
+		if (sscanf(userInput, "%s", &(task.Title)) == 1)
+		{
+			break;
+		}
+
+		else
+		{
+			printf("please enter vaild input");
+		}
+	}
+
+	printf("enter Description?>>>");
+
+	while (1)
+	{
+		fgets(userInput, sizeof userInput, stdin);
+		if (sscanf(userInput, "%s", &(task.Description)) == 1)
+		{
+			break;
+		}
+
+		else
+		{
+			printf("please enter vaild input");
+		}
+	}
+
+	return task;
+}
+
+struct Task* AddTask(struct Task* tail, struct Task taskToAdd)
+{
+	char userInput[KTaskMaxLength] = "";
+
+	struct Task* current = tail;
+
+	struct Task* newTask = (struct Task*)malloc(sizeof(struct Task));
+	if (newTask == NULL)
+	{
+		printf("Add task is unsuccessful due to ran out of memory!");
+		exit(EXIT_FAILURE);
+	}
+
+	newTask->TaskId = taskToAdd.TaskId;
+	strcpy(newTask->Title, taskToAdd.Title);
+	strcpy(newTask->Description, taskToAdd.Description);
+	newTask->NextTask = NULL;
+
+	return newTask;
 }
 
 void printTasks(struct Task head)
