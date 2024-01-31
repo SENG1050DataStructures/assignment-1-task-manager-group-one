@@ -44,7 +44,7 @@ int main(void)
 		printf("Press 4 to Print Tasks\n");
 		printf("Press 5 to Exit\n");
 
-		while (getNumber("Your choice", &command) != 1) {
+		while (getNumber("Your choice", &command) != 0) {
 			printf("--Input was not a valid integer--\n\n");
 		}
 
@@ -53,7 +53,6 @@ int main(void)
 		case 1:
 			if (0 == checker)
 			{
-
 				head = AddTask(tail, CreateTask());
 				current = head;
 				checker++;
@@ -99,53 +98,16 @@ struct Task CreateTask()
 	struct Task task;
 	char userInput[KTaskMaxLength] = "";
 
-	printf("enter taskId?>>>");
-
-	while (1)
-	{
-
-		fgets(userInput, sizeof userInput, stdin);
-		if (sscanf(userInput, "%d", &(task.TaskId)) == 1)
-		{
-			break;
-		}
-
-		else
-		{
-			printf("please enter vaild input");
-		}
+	while (getNumber("enter taskId?>>>", &(task.TaskId)) != 0) {
+		printf("--Input was not a valid integer--\n\n");
 	}
 
-	printf("enter Title?>>>");
-
-	while (1)
-	{
-		fgets(userInput, sizeof userInput, stdin);
-		if (sscanf(userInput, "%s", &(task.Title)) == 1)
-		{
-			break;
-		}
-
-		else
-		{
-			printf("please enter vaild input");
-		}
+	while (getString("enter Title?>>>", &(task.Title)) != 0) {
+		printf("--Input was not a valid integer--\n\n");
 	}
 
-	printf("enter Description?>>>");
-
-	while (1)
-	{
-		fgets(userInput, sizeof userInput, stdin);
-		if (sscanf(userInput, "%s", &(task.Description)) == 1)
-		{
-			break;
-		}
-
-		else
-		{
-			printf("please enter vaild input");
-		}
+	while (getString("enter Title?>>>", &(task.Description)) != 0) {
+		printf("--Input was not a valid integer--\n\n");
 	}
 
 	return task;
@@ -210,9 +172,9 @@ void freeList(struct Task* head)
 * Returns:		int : Function status. 0 if the function finished without error, otherwise -1.
 */
 int getNumber(const char inputPrompt[], int* result) {
-	char input[kMaxInputLength];
+	char input[KTaskMaxLength];
 	printf("%s >> ", inputPrompt);
-	fgets(input, kMaxInputLength, stdin);
+	fgets(input, KTaskMaxLength, stdin);
 	if (sscanf(input, "%d", result) != 1) {
 		/* printf("<ADD ERROR MESSAGE HERE>\n"); */
 		return -1;
@@ -230,9 +192,9 @@ int getNumber(const char inputPrompt[], int* result) {
 * Returns:		int : Function status. 0 if the function finished without error, otherwise -1.
 */
 int getString(const char message[], char* result) {
-	char input[kMaxInputLength];
+	char input[KTaskMaxLength];
 	printf("%s >> ", message);
-	fgets(input, kMaxInputLength, stdin);
+	fgets(input, KTaskMaxLength, stdin);
 	if (sscanf(input, "%s", result) != 1) {
 		/* printf("<ADD ERROR MESSAGE HERE>\n"); */
 		return -1;
