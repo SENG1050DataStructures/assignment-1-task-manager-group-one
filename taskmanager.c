@@ -21,8 +21,7 @@ void freeList(struct Task* head);
 int getNumber(const char[], int*);
 int getString(const char[], char*);
 
-int main(void)
-{
+int main(void) {
 	/* Declare User Input variables */
 	char userInput[KTaskMaxLength] = "";
 	int command = 0;
@@ -37,8 +36,7 @@ int main(void)
 	int checker = 0;
 	dataStructureProject.NextTask = &exampleFoot;
 
-	while (command != 5)
-	{
+	while (command != 5) {
 		printf("Press 1 to Add Task\n");
 		printf("Press 2 to Delete Task\n");
 		printf("Press 3 to Find Task\n");
@@ -66,7 +64,7 @@ int main(void)
 			}
 			break;
 		case 2:
-			//Delete Task & Free memory
+			//Delete Task & Free memory Aly will finish
 			break;
 		case 3:
 			while (getNumber("Enter the index you want to display", &command) != 0) {
@@ -79,14 +77,12 @@ int main(void)
 			// print task info to display
 			break;
 		case 4:
-			if (head == NULL)
-			{
+			if (head == NULL) {
 				printf("\n----------------------------------------------------------------------------\n");
 				printf("There are currently no tasks defined. Please add some tasks before printing. \n");
 				printf("----------------------------------------------------------------------------\n\n");
 			}
-			else
-			{
+			else{
 				printTasks(*head);
 			}
 			break;
@@ -101,8 +97,7 @@ int main(void)
 	return 0;
 }
 
-struct Task CreateTask()
-{
+struct Task CreateTask() {
 	struct Task task;
 	char userInput[KTaskMaxLength] = "";
 
@@ -128,8 +123,7 @@ struct Task* AddTask(struct Task* tail, struct Task taskToAdd)
 	struct Task* current = tail;
 
 	struct Task* newTask = (struct Task*)malloc(sizeof(struct Task));
-	if (newTask == NULL)
-	{
+	if (newTask == NULL) {
 		printf("Add task is unsuccessful due to ran out of memory!");
 		exit(EXIT_FAILURE);
 	}
@@ -142,14 +136,7 @@ struct Task* AddTask(struct Task* tail, struct Task taskToAdd)
 	return newTask;
 }
 
-/*
-* Function:		findTaskByIndex()
-* Description:	Iterates through the linked list, starting from the head, until the desired index
-				is reached, returning a pointer to that index.
-* Parameters:	struct Task* : Task pointer for the head of the linked list
-*				int : The index of the Task pointer to be returned
-* Returns:		struct Task* : Task pointer 
-*/
+
 struct Task* findTaskByIndex(struct Task* head, int index) {
 	Task* current = head;
 	for (int i = 0; i > index; i++) {
@@ -161,11 +148,9 @@ struct Task* findTaskByIndex(struct Task* head, int index) {
 	return current;
 }
 
-void printTasks(struct Task head)
-{
+void printTasks(struct Task head) {
 	struct Task current = head;
-	while (current.NextTask != NULL)
-	{
+	while (current.NextTask != NULL) {
 		printf("-------------------------------------------\n");
 		printf("Task ID: %d\nTitle: %s\nDescription: %s\n", current.TaskId, current.Title, current.Description);
 		current = *(current.NextTask);
@@ -176,28 +161,18 @@ void printTasks(struct Task head)
 	printf("-------------------------------------------\n\n");
 }
 
-void freeList(struct Task* head)
-{
+void freeList(struct Task* head) {
 	struct Task* current = head;
 	struct Task* nextTask = NULL;
 
-	while (current != NULL)
-	{
+	while (current != NULL) {
 		nextTask = current->NextTask;
 		free(current);
 		current = nextTask;
 	}
 }
 
-/*
-* Function:		getNumber()
-* Description:	Requests a number input from the user. If the input is a valid integer, the input
-*				is saved into the int* arguement and a value of 0 is returned. An invalid input
-*				returns an error value of -1.
-* Parameters:	const char[] : The prompt given to the user.
-*				int* : Holds the value of the user input.
-* Returns:		int : Function status. 0 if the function finished without error, otherwise -1.
-*/
+
 int getNumber(const char inputPrompt[], int* result) {
 	char input[KTaskMaxLength];
 	printf("%s >> ", inputPrompt);
@@ -209,15 +184,7 @@ int getNumber(const char inputPrompt[], int* result) {
 	return 0;
 }
 
-/*
-* Function:		getString()
-* Description:	Requests a string input from the user. If the input is a valid string, the input
-*				is saved into the char* arguement and a value of 0 is returned. An invalid input
-*				returns an error value of -1.
-* Parameters:	const char[] : The prompt given to the user.
-*				char* : Holds the value of the user input.
-* Returns:		int : Function status. 0 if the function finished without error, otherwise -1.
-*/
+
 int getString(const char message[], char* result) {
 	char input[KTaskMaxLength];
 	printf("%s >> ", message);
