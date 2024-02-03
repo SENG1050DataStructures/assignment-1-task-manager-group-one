@@ -11,6 +11,7 @@ struct Task {
 	struct Task* NextTask;
 };
 
+/* Linked list function prototypes */
 int CreateTaskID(int* TaskIDToAdd, struct Task* head);
 struct Task CreateTask(int TaskIDToAdd);
 struct Task* AddTask(struct Task* tail, struct Task taskToAdd);
@@ -18,25 +19,26 @@ struct Task* findTaskByIndex(struct Task*, int);
 void printTasks(struct Task head);
 void freeList(struct Task* head);
 
-/* User Input function prototypes */
+/* User input function prototypes */
 int getNumber(const char[], int*);
 int getString(const char[], char*);
 
 int main(void) {
-	/* Declare User Input variables */
+
+	/* Declare menu and user input variables */
 	char userInput[KTaskMaxLength] = "";
 	int command = 0;
 
 	/* Linked List variables */
-	struct Task dataStructureProject = { 1, "Project", "Work in a group on some code", NULL };
-	struct Task exampleFoot = { 2, "Title", "Description", NULL };
 	struct Task* head = NULL;
 	struct Task* temp = NULL;
 	struct Task* tail = NULL;
 	int TaskIDToAdd = 0;
-	dataStructureProject.NextTask = &exampleFoot;
 
 	while (command != 5) {
+
+		/* Display menu to user */
+		printf("===MENU===\n");
 		printf("Press 1 to Add Task\n");
 		printf("Press 2 to Delete Task\n");
 		printf("Press 3 to Find Task\n");
@@ -47,19 +49,18 @@ int main(void) {
 			printf("--Input was not a valid integer--\n\n");
 		}
 
-		switch (command)
-		{
+		switch (command) {
 		case 1:
 			while(CreateTaskID(&TaskIDToAdd, head) != 0) {
 				printf("--TaskID is duplicated--\n\n");
 			}
 
-			if (head == NULL){
+			if (head == NULL) {
 				head = AddTask(tail, CreateTask(TaskIDToAdd));
 				tail = head;
 				temp = head;
 			}
-			else{
+			else {
 				tail = AddTask(tail, CreateTask(TaskIDToAdd));
 				temp->NextTask = tail;
 				temp = tail;
@@ -84,7 +85,7 @@ int main(void) {
 				printf("There are currently no tasks defined. Please add some tasks before printing. \n");
 				printf("----------------------------------------------------------------------------\n\n");
 			}
-			else{
+			else {
 				printTasks(*head);
 			}
 			break;
@@ -156,14 +157,14 @@ struct Task* AddTask(struct Task* tail, struct Task taskToAdd) {
 }
 
 struct Task* findTaskByIndex(struct Task* head, int index) {
-	struct Task* current = head;
+	struct Task* temp = head;
 	for (int i = 0; i > index; i++) {
-		if (current->NextTask == NULL) {
+		if (temp->NextTask == NULL) {
 			return NULL;
 		}
-		current = current->NextTask;
+		temp = temp->NextTask;
 	}
-	return current;
+	return temp;
 }
 
 void printTasks(struct Task head) {
@@ -195,18 +196,16 @@ int getNumber(const char inputPrompt[], int* result) {
 	printf("%s >> ", inputPrompt);
 	fgets(input, KTaskMaxLength, stdin);
 	if (sscanf(input, "%d", result) != 1) {
-		/* printf("<ADD ERROR MESSAGE HERE>\n"); */
 		return -1;
 	}
 	return 0;
 }
 
-int getString(const char message[], char* result) {
+int getString(const char inputPrompt[], char* result) {
 	char input[KTaskMaxLength];
-	printf("%s >> ", message);
+	printf("%s >> ", inputPrompt);
 	fgets(input, KTaskMaxLength, stdin);
 	if (sscanf(input, "%s", result) != 1) {
-		/* printf("<ADD ERROR MESSAGE HERE>\n"); */
 		return -1;
 	}
 	return 0;
