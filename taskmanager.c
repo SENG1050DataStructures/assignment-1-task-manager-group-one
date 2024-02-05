@@ -15,7 +15,7 @@ struct Task {
 /* Linked list function prototypes */
 int CreateTaskID(int* TaskIDToAdd, struct Task* head);
 struct Task CreateTask(int TaskIDToAdd);
-struct Task* AddTask(struct Task* tail, struct Task taskToAdd);
+struct Task* AddTask(struct Task taskToAdd);
 struct Task* findTaskByIndex(struct Task*, int);
 void printTasks(struct Task head);
 void freeList(struct Task* head);
@@ -29,6 +29,7 @@ int main(void) {
 	/* Declare menu and user input variables */
 	char userInput[KTaskMaxLength] = "";
 	int command = 0;
+	int loop = 1;
 
 	/* Linked List variables */
 	struct Task* head = NULL;
@@ -36,7 +37,7 @@ int main(void) {
 	struct Task* tail = NULL;
 	int TaskIDToAdd = 0;
 
-	while (command != 5) {
+	while (loop == 1) {
 
 		/* Display menu to user */
 		printf("===MENU===\n");
@@ -74,11 +75,14 @@ int main(void) {
 			while (getNumber("Enter the index you want to display", &command) != 0) {
 				printf("--Input was not a valid integer--\n\n");
 			}
-			if ((temp = findTaskByIndex(head, command)) == NULL) {
+			struct Task* temp2 = NULL;
+			if ((temp2 = findTaskByIndex(head, command)) == NULL) {
 				printf("--The Task at index %d cannot be found--", command);
 				continue;
 			}
-			// print task info to display
+			printf("-------------------------------------------\n");
+			printf("Task ID: %d\nTitle: %s\nDescription: %s\n", temp2.TaskID, temp2.Title, temp2.Description);
+			printf("-------------------------------------------\n\n");
 			break;
 		case 4:
 			if (head == NULL) {
@@ -92,6 +96,7 @@ int main(void) {
 			break;
 		case 5:
 			freeList(head);
+			loop = 0;
 			break;
 		default:
 			printf("--Option %d does not exist--\n\n", command);
