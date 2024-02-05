@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #pragma warning(disable: 4996)
 
 #define KTaskMaxLength 101
@@ -56,12 +57,12 @@ int main(void) {
 			}
 
 			if (head == NULL) {
-				head = AddTask(tail, CreateTask(TaskIDToAdd));
+				head = AddTask(CreateTask(TaskIDToAdd));
 				tail = head;
 				temp = head;
 			}
 			else {
-				tail = AddTask(tail, CreateTask(TaskIDToAdd));
+				tail = AddTask(CreateTask(TaskIDToAdd));
 				temp->NextTask = tail;
 				temp = tail;
 			}
@@ -102,9 +103,6 @@ int main(void) {
 
 int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
 	
-	struct Task task = { 0 };
-	task.NextTask = NULL;
-	
 	while (getNumber("enter taskID?", TaskIDToAdd) != 0) {
 		printf("--Input was not a valid integer--\n\n");
 	}
@@ -119,11 +117,9 @@ int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
 }
 
 struct Task CreateTask(int TaskIDToAdd) {
+
 	struct Task task = { 0 };
 	task.NextTask = NULL;
-
-	char userInput[KTaskMaxLength] = "";
-
 	task.TaskID = TaskIDToAdd;
 
 	while (getString("enter Title?", task.Title) != 0) {
@@ -137,10 +133,7 @@ struct Task CreateTask(int TaskIDToAdd) {
 	return task;
 }
 
-struct Task* AddTask(struct Task* tail, struct Task taskToAdd) {
-	char userInput[KTaskMaxLength] = "";
-
-	struct Task* current = tail;
+struct Task* AddTask(struct Task taskToAdd) {
 
 	struct Task* newTask = (struct Task*)malloc(sizeof(struct Task));
 	if (newTask == NULL) {
@@ -158,7 +151,7 @@ struct Task* AddTask(struct Task* tail, struct Task taskToAdd) {
 
 struct Task* findTaskByIndex(struct Task* head, int index) {
 	struct Task* temp = head;
-	for (int i = 0; i > index; i++) {
+	for (int i = 0; i < index; i++) {
 		if (temp->NextTask == NULL) {
 			return NULL;
 		}
