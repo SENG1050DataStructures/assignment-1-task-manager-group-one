@@ -16,7 +16,7 @@ struct Task {
 int CreateTaskID(int* TaskIDToAdd, struct Task* head);
 struct Task CreateTask(int TaskIDToAdd);
 struct Task* AddTask(struct Task taskToAdd);
-int DeleteTaskByTaskId(struct Task* head, int iD);
+struct Task* DeleteTaskByTaskId(struct Task* head, int iD);
 struct Task* findTaskByIndex(struct Task*, int);
 void printTasks(struct Task head);
 void freeList(struct Task* head);
@@ -31,7 +31,6 @@ int main(void) {
 	char userInput[KTaskMaxLength] = "";
 	int command = 0;
 	int loop = 1;
-	int statusCode = 0;
 
 	/* Linked List variables */
 	struct Task* head = NULL;
@@ -70,16 +69,14 @@ int main(void) {
 			}
 			break;
 		case 2:
-			getNumber("Enter the Task ID of the task you want to delete.", &command);
-			statusCode = DeleteTaskByTaskId(head, command);
-			if (statusCode != 0) {
-				printf("--Task ID #%d could not be found--\n\n", command);
+			if (head == NULL) {
+				printf("--There are currently no Tasks in the list.--");
+				continue;
 			}
-			else {
-				printf("\n---------------------------------\n");
-				printf("Task ID #%d has been deleted.\n", command);
-				printf("----------------------------------\n\n");
-			};
+
+			getNumber("Enter the Task ID of the task you want to delete.", &command);
+			head = DeleteTaskByTaskId(head, command);
+
 			break;
 		case 3:
 			getNumber("Enter the index you want to display", &command);
@@ -158,37 +155,31 @@ struct Task* AddTask(struct Task taskToAdd) {
 	return newTask;
 }
 
-int DeleteTaskByTaskId(struct Task* head, int iD) {
-	struct Task* temp = head;
-	struct Task* lastTask = NULL;
+struct Task* DeleteTaskByTaskId(struct Task* head, int iD) {
+	struct Task* current = head;
+	struct Task* temp = NULL;
 
-	if (temp->TaskID == iD) {
-		head = temp->NextTask;
-		free(temp);
+	if (current->TaskID == iD) {
+		temp = head;
+		head = current->NextTask;
 	}
-
-	lastTask = temp;
-	temp = (temp->NextTask);
-
-	while (temp->NextTask != NULL) {
-		if (temp->TaskID == iD) {
-			lastTask->NextTask = temp->NextTask;
-			free(temp);
-			break;
-		}
-		else {
-			lastTask = temp;
-			temp = (temp->NextTask);
+	else {
+		while (current->NextTask != NULL) {
+			if (current->NextTask->TaskID == iD) {
+				temp = current->NextTask;
+				current->NextTask = temp->NextTask;
+				break;
+			}
+			current = current->NextTask;
 		}
 	}
 
-	if (temp->TaskID == iD) {
-		lastTask->NextTask = NULL;
-		free(temp);
-		return 0;
+	if (temp == NULL) {
+		printf("\n--No Task found with ID: %d--\n", iD);
 	}
 
-	return -1;
+	free(temp);
+	return head;
 }
 
 struct Task* findTaskByIndex(struct Task* head, int index) {
