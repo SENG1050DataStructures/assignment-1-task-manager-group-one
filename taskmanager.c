@@ -16,6 +16,7 @@ struct Task {
 int CreateTaskID(int* TaskIDToAdd, struct Task* head);
 struct Task CreateTask(int TaskIDToAdd);
 struct Task* AddTask(struct Task taskToAdd);
+int DeleteTaskByTaskId(struct Task* head, int iD);
 struct Task* findTaskByIndex(struct Task*, int);
 void printTasks(struct Task head);
 void freeList(struct Task* head);
@@ -30,10 +31,12 @@ int main(void) {
 	char userInput[KTaskMaxLength] = "";
 	int command = 0;
 	int loop = 1;
+	int statusCode = 0;
 
 	/* Linked List variables */
 	struct Task* head = NULL;
 	struct Task* temp = NULL;
+	struct Task* temp2 = NULL;
 	struct Task* tail = NULL;
 	int TaskIDToAdd = 0;
 
@@ -47,11 +50,11 @@ int main(void) {
 		printf("Press 4 to Print Tasks\n");
 		printf("Press 5 to Exit\n");
 
-		getNumber("Your choice", &command) != 0);
+		getNumber("Your choice", &command);
 
 		switch (command) {
 		case 1:
-			while(CreateTaskID(&TaskIDToAdd, head) != 0) {
+			while (CreateTaskID(&TaskIDToAdd, head) != 0) {
 				printf("--TaskID is duplicated--\n\n");
 			}
 
@@ -67,18 +70,30 @@ int main(void) {
 			}
 			break;
 		case 2:
-			//Delete Task & Free memory Aly will finish
+			getNumber("Enter the Task ID of the task you want to delete.", &command);
+			statusCode = DeleteTaskByTaskId(head, command);
+			if (statusCode != 0) {
+				printf("--Task ID #%d could not be found--\n\n", command);
+			}
+			else {
+				printf("\n---------------------------------\n");
+				printf("Task ID #%d has been deleted.\n", command);
+				printf("----------------------------------\n\n");
+			};
 			break;
 		case 3:
 			getNumber("Enter the index you want to display", &command);
-			struct Task* temp2 = NULL;
+
 			if ((temp2 = findTaskByIndex(head, command)) == NULL) {
 				printf("--The Task at index %d cannot be found--", command);
 				continue;
 			}
-			printf("-------------------------------------------\n");
-			printf("Task ID: %d\nTitle: %s\nDescription: %s\n", temp2.TaskID, temp2.Title, temp2.Description);
-			printf("-------------------------------------------\n\n");
+			else {
+				printf("-------------------------------------------\n");
+				printf("Task ID: %d\nTitle: %s\nDescription: %s\n", temp2->TaskID, temp2->Title, temp2->Description);
+				printf("-------------------------------------------\n\n");
+			};
+
 			break;
 		case 4:
 			if (head == NULL) {
@@ -103,7 +118,7 @@ int main(void) {
 }
 
 int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
-	
+
 	getNumber("enter taskID?", TaskIDToAdd);
 
 	while (head != NULL) {
@@ -121,8 +136,8 @@ struct Task CreateTask(int TaskIDToAdd) {
 	task.NextTask = NULL;
 	task.TaskID = TaskIDToAdd;
 
-	getString("enter Title?", task.Title);
-	getString("enter Title?", task.Description);
+	getString("Enter Title?", task.Title);
+	getString("Enter Description?", task.Description);
 
 	return task;
 }
@@ -141,6 +156,39 @@ struct Task* AddTask(struct Task taskToAdd) {
 	newTask->NextTask = NULL;
 
 	return newTask;
+}
+
+int DeleteTaskByTaskId(struct Task* head, int iD) {
+	struct Task* temp = head;
+	struct Task* lastTask = NULL;
+
+	if (temp->TaskID == iD) {
+		head = temp->NextTask;
+		free(temp);
+	}
+
+	lastTask = temp;
+	temp = (temp->NextTask);
+
+	while (temp->NextTask != NULL) {
+		if (temp->TaskID == iD) {
+			lastTask->NextTask = temp->NextTask;
+			free(temp);
+			break;
+		}
+		else {
+			lastTask = temp;
+			temp = (temp->NextTask);
+		}
+	}
+
+	if (temp->TaskID == iD) {
+		lastTask->NextTask = NULL;
+		free(temp);
+		return 0;
+	}
+
+	return -1;
 }
 
 struct Task* findTaskByIndex(struct Task* head, int index) {
@@ -179,10 +227,10 @@ void freeList(struct Task* head) {
 }
 
 void getNumber(const char inputPrompt[], int* result) {
-	char input[kMaxInputLength];
+	char input[KTaskMaxLength];
 	while (1) {
 		printf("%s >> ", inputPrompt);
-		fgets(input, kMaxInputLength, stdin);
+		fgets(input, KTaskMaxLength, stdin);
 		if (sscanf(input, "%d", result) == 1) {
 			break;
 		}
@@ -191,10 +239,10 @@ void getNumber(const char inputPrompt[], int* result) {
 }
 
 void getString(const char inputPrompt[], char* result) {
-	char input[kMaxInputLength];
+	char input[KTaskMaxLength];
 	while (1) {
 		printf("%s >> ", inputPrompt);
-		fgets(input, kMaxInputLength, stdin);
+		fgets(input, KTaskMaxLength, stdin);
 		if (sscanf(input, "%s", result) == 1) {
 			break;
 		}
