@@ -21,8 +21,8 @@ void printTasks(struct Task head);
 void freeList(struct Task* head);
 
 /* User input function prototypes */
-int getNumber(const char[], int*);
-int getString(const char[], char*);
+void getNumber(const char[], int*);
+void getString(const char[], char*);
 
 int main(void) {
 
@@ -47,9 +47,7 @@ int main(void) {
 		printf("Press 4 to Print Tasks\n");
 		printf("Press 5 to Exit\n");
 
-		while (getNumber("Your choice", &command) != 0) {
-			printf("--Input was not a valid integer--\n\n");
-		}
+		getNumber("Your choice", &command) != 0);
 
 		switch (command) {
 		case 1:
@@ -72,9 +70,7 @@ int main(void) {
 			//Delete Task & Free memory Aly will finish
 			break;
 		case 3:
-			while (getNumber("Enter the index you want to display", &command) != 0) {
-				printf("--Input was not a valid integer--\n\n");
-			}
+			getNumber("Enter the index you want to display", &command);
 			struct Task* temp2 = NULL;
 			if ((temp2 = findTaskByIndex(head, command)) == NULL) {
 				printf("--The Task at index %d cannot be found--", command);
@@ -108,9 +104,7 @@ int main(void) {
 
 int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
 	
-	while (getNumber("enter taskID?", TaskIDToAdd) != 0) {
-		printf("--Input was not a valid integer--\n\n");
-	}
+	getNumber("enter taskID?", TaskIDToAdd);
 
 	while (head != NULL) {
 		if (head->TaskID == *TaskIDToAdd) {
@@ -127,13 +121,8 @@ struct Task CreateTask(int TaskIDToAdd) {
 	task.NextTask = NULL;
 	task.TaskID = TaskIDToAdd;
 
-	while (getString("enter Title?", task.Title) != 0) {
-		printf("--Input was not a valid integer--\n\n");
-	}
-
-	while (getString("enter Title?", task.Description) != 0) {
-		printf("--Input was not a valid integer--\n\n");
-	}
+	getString("enter Title?", task.Title);
+	getString("enter Title?", task.Description);
 
 	return task;
 }
@@ -189,22 +178,26 @@ void freeList(struct Task* head) {
 	}
 }
 
-int getNumber(const char inputPrompt[], int* result) {
-	char input[KTaskMaxLength];
-	printf("%s >> ", inputPrompt);
-	fgets(input, KTaskMaxLength, stdin);
-	if (sscanf(input, "%d", result) != 1) {
-		return -1;
+void getNumber(const char inputPrompt[], int* result) {
+	char input[kMaxInputLength];
+	while (1) {
+		printf("%s >> ", inputPrompt);
+		fgets(input, kMaxInputLength, stdin);
+		if (sscanf(input, "%d", result) == 1) {
+			break;
+		}
+		printf("\n--Input was not a valid integer--\n");
 	}
-	return 0;
 }
 
-int getString(const char inputPrompt[], char* result) {
-	char input[KTaskMaxLength];
-	printf("%s >> ", inputPrompt);
-	fgets(input, KTaskMaxLength, stdin);
-	if (sscanf(input, "%s", result) != 1) {
-		return -1;
+void getString(const char inputPrompt[], char* result) {
+	char input[kMaxInputLength];
+	while (1) {
+		printf("%s >> ", inputPrompt);
+		fgets(input, kMaxInputLength, stdin);
+		if (sscanf(input, "%s", result) == 1) {
+			break;
+		}
+		printf("\n--Input was not a valid string--\n");
 	}
-	return 0;
 }
