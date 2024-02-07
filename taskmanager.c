@@ -52,7 +52,7 @@ int main(void) {
 			while (CreateTaskID(&TaskIDToAdd, head) != 0) {
 				printf("--TaskID is duplicated--\n\n");
 			}
-				AddTask(CreateTask(TaskIDToAdd), &head);
+			AddTask(CreateTask(TaskIDToAdd), &head);
 			break;
 		case 2: /*---------------------DELETE TASK BY ID---------------------*/
 			if (head == NULL) {
@@ -84,9 +84,8 @@ int main(void) {
 			break;
 		case 4: /*---------------------PRINT ALL TASKS---------------------*/
 			if (head == NULL) {
-				printf("\n----------------------------------------------------------------------------\n");
-				printf("There are currently no tasks defined. Please add some tasks before printing. \n");
-				printf("----------------------------------------------------------------------------\n\n");
+				printf("--There are currently no tasks defined. Please add some tasks before printing.--\n");
+
 			}
 			else {
 				printTasks(*head);
@@ -101,12 +100,16 @@ int main(void) {
 			break;
 		}
 	}
+
+	printf("------------------------------------------------------\n");
+	printf("Closing Program! Thank you for using the task manager.\n");
+	printf("------------------------------------------------------\n");
 	return 0;
 }
 
 int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
 
-	getNumber("\nEnter taskID", TaskIDToAdd);
+	getNumber("\nEnter Task ID", TaskIDToAdd);
 
 	while (head != NULL) {
 		if (head->TaskID == *TaskIDToAdd) {
@@ -136,7 +139,7 @@ void AddTask(struct Task taskToAdd, struct Task** head) {
 	struct Task* current = *head;
 
 	if (newTask == NULL) {
-		printf("Add task is unsuccessful due to ran out of memory!");
+		printf("--Add task is unsuccessful due to ran out of memory!-- \n\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -145,16 +148,21 @@ void AddTask(struct Task taskToAdd, struct Task** head) {
 	strcpy(newTask->Description, taskToAdd.Description);
 	newTask->NextTask = NULL;
 
-	if(*head == NULL) {
+	if (*head == NULL) {
 		*head = newTask;
-	} 
+	}
 
 	else {
-		while(current->NextTask != NULL){
-        current = current->NextTask;
+		while (current->NextTask != NULL) {
+			current = current->NextTask;
 		}
 		current->NextTask = newTask;
 	}
+
+	printf("-------------------------------------------\n");
+	printf("Task [%s] has been successfully added.\n", newTask->Title);
+	printf("-------------------------------------------\n");
+
 }
 
 struct Task* DeleteTaskByTaskId(struct Task* head, int iD) {
@@ -181,6 +189,11 @@ struct Task* DeleteTaskByTaskId(struct Task* head, int iD) {
 	}
 
 	free(temp);
+
+	printf("--------------------------------------------\n");
+	printf("Task ID [%d] has been successfully deleted.\n", iD);
+	printf("--------------------------------------------\n");
+
 	return head;
 }
 
@@ -205,7 +218,7 @@ void printTasks(struct Task head) {
 
 	printf("-------------------------------------------\n");
 	printf("Task ID: %d\nTitle: %s\nDescription: %s\n", current.TaskID, current.Title, current.Description);
-	printf("-------------------------------------------\n\n");
+	printf("-------------------------------------------\n");
 }
 
 void freeList(struct Task* head) {
