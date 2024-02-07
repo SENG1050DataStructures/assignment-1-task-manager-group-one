@@ -3,12 +3,12 @@
 #include <string.h>
 #pragma warning(disable: 4996)
 
-#define KTaskMaxLength 101
+#define kMaxStringLength 101
 
 struct Task {
 	int TaskID;
-	char Title[KTaskMaxLength];
-	char Description[KTaskMaxLength];
+	char Title[kMaxStringLength];
+	char Description[kMaxStringLength];
 	struct Task* NextTask;
 };
 
@@ -27,9 +27,7 @@ void getString(const char[], char*);
 
 int main(void) {
 
-	/* Declare menu and user input variables */
-	char userInput[KTaskMaxLength] = "";
-	int command = 0;
+	int userInput = 0;
 	int loop = 1;
 
 	/* Linked List variables */
@@ -42,19 +40,19 @@ int main(void) {
 	while (loop == 1) {
 
 		/* Display menu to user */
-		printf("===MENU===\n");
+		printf("\n===MENU===\n");
 		printf("Press 1 to Add Task\n");
 		printf("Press 2 to Delete Task\n");
 		printf("Press 3 to Find Task\n");
 		printf("Press 4 to Print Tasks\n");
 		printf("Press 5 to Exit\n");
 
-		getNumber("Your choice", &command);
+		getNumber("\nYour choice", &userInput);
 
-		switch (command) {
-		case 1:
+		switch (userInput) {
+		case 1: /*---------------------ADD TASK---------------------*/
 			while (CreateTaskID(&TaskIDToAdd, head) != 0) {
-				printf("--TaskID is duplicated--\n\n");
+				printf("\n--TaskID is duplicated--\n");
 			}
 
 			if (head == NULL) {
@@ -68,22 +66,26 @@ int main(void) {
 				temp = tail;
 			}
 			break;
-		case 2:
+		case 2: /*---------------------DELETE TASK BY ID---------------------*/
 			if (head == NULL) {
-				printf("--There are currently no Tasks in the list.--");
+				printf("\n--There are currently no Tasks in the list--\n");
 				continue;
 			}
 
-			getNumber("Enter the Task ID of the task you want to delete.", &command);
-			head = DeleteTaskByTaskId(head, command);
+			getNumber("\nEnter the Task ID of the task you want to delete.", &userInput);
+			head = DeleteTaskByTaskId(head, userInput);
 
 			break;
-		case 3:
-			getNumber("Enter the index you want to display", &command);
-
-			if ((temp2 = findTaskByIndex(head, command)) == NULL) {
-				printf("--The Task at index %d cannot be found--", command);
+		case 3: /*---------------------FIND TASK BY INDEX---------------------*/
+			if (head == NULL) {
+				printf("\n--There are currently no Tasks--\n");
 				continue;
+			}
+
+			getNumber("\nEnter the index you want to display", &userInput);
+
+			if ((temp2 = findTaskByIndex(head, userInput)) == NULL) {
+				printf("\n--The Task at index %d cannot be found--\n", userInput);
 			}
 			else {
 				printf("-------------------------------------------\n");
@@ -92,7 +94,7 @@ int main(void) {
 			};
 
 			break;
-		case 4:
+		case 4: /*---------------------PRINT ALL TASKS---------------------*/
 			if (head == NULL) {
 				printf("\n----------------------------------------------------------------------------\n");
 				printf("There are currently no tasks defined. Please add some tasks before printing. \n");
@@ -102,12 +104,12 @@ int main(void) {
 				printTasks(*head);
 			}
 			break;
-		case 5:
+		case 5: /*---------------------EXIT PROGRAM---------------------*/
 			freeList(head);
 			loop = 0;
 			break;
-		default:
-			printf("--Option %d does not exist--\n\n", command);
+		default: /*---------------------INVALID INPUT---------------------*/
+			printf("\n--Option %d does not exist--\n", userInput);
 			break;
 		}
 	}
@@ -116,7 +118,7 @@ int main(void) {
 
 int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
 
-	getNumber("enter taskID?", TaskIDToAdd);
+	getNumber("\nEnter taskID", TaskIDToAdd);
 
 	while (head != NULL) {
 		if (head->TaskID == *TaskIDToAdd) {
@@ -133,8 +135,8 @@ struct Task CreateTask(int TaskIDToAdd) {
 	task.NextTask = NULL;
 	task.TaskID = TaskIDToAdd;
 
-	getString("Enter Title?", task.Title);
-	getString("Enter Description?", task.Description);
+	getString("Enter Title", task.Title);
+	getString("Enter Description", task.Description);
 
 	return task;
 }
@@ -143,7 +145,7 @@ struct Task* AddTask(struct Task taskToAdd) {
 
 	struct Task* newTask = (struct Task*)malloc(sizeof(struct Task));
 	if (newTask == NULL) {
-		printf("Add task is unsuccessful due to ran out of memory!");
+		printf("\n--Add task is unsuccessful due to ran out of memory!--\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -218,10 +220,10 @@ void freeList(struct Task* head) {
 }
 
 void getNumber(const char inputPrompt[], int* result) {
-	char input[KTaskMaxLength];
+	char input[kMaxStringLength];
 	while (1) {
 		printf("%s >> ", inputPrompt);
-		fgets(input, KTaskMaxLength, stdin);
+		fgets(input, kMaxStringLength, stdin);
 		if (sscanf(input, "%d", result) == 1) {
 			break;
 		}
@@ -230,10 +232,10 @@ void getNumber(const char inputPrompt[], int* result) {
 }
 
 void getString(const char inputPrompt[], char* result) {
-	char input[KTaskMaxLength];
+	char input[kMaxStringLength];
 	while (1) {
 		printf("%s >> ", inputPrompt);
-		fgets(input, KTaskMaxLength, stdin);
+		fgets(input, kMaxStringLength, stdin);
 		if (sscanf(input, "%s", result) == 1) {
 			break;
 		}
