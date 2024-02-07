@@ -15,7 +15,7 @@ struct Task {
 /* Linked list function prototypes */
 int CreateTaskID(int* TaskIDToAdd, struct Task* head);
 struct Task CreateTask(int TaskIDToAdd);
-struct Task* AddTask(struct Task taskToAdd);
+void AddTask(struct Task taskToAdd, struct Task** head);
 struct Task* DeleteTaskByTaskId(struct Task* head, int iD);
 struct Task* findTaskByIndex(struct Task*, int);
 void printTasks(struct Task head);
@@ -32,9 +32,7 @@ int main(void) {
 
 	/* Linked List variables */
 	struct Task* head = NULL;
-	struct Task* temp = NULL;
 	struct Task* temp2 = NULL;
-	struct Task* tail = NULL;
 	int TaskIDToAdd = 0;
 
 	while (loop == 1) {
@@ -52,19 +50,9 @@ int main(void) {
 		switch (userInput) {
 		case 1: /*---------------------ADD TASK---------------------*/
 			while (CreateTaskID(&TaskIDToAdd, head) != 0) {
-				printf("\n--TaskID is duplicated--\n");
+				printf("--TaskID is duplicated--\n\n");
 			}
-
-			if (head == NULL) {
-				head = AddTask(CreateTask(TaskIDToAdd));
-				tail = head;
-				temp = head;
-			}
-			else {
-				tail = AddTask(CreateTask(TaskIDToAdd));
-				temp->NextTask = tail;
-				temp = tail;
-			}
+				AddTask(CreateTask(TaskIDToAdd), &head);
 			break;
 		case 2: /*---------------------DELETE TASK BY ID---------------------*/
 			if (head == NULL) {
@@ -141,11 +129,14 @@ struct Task CreateTask(int TaskIDToAdd) {
 	return task;
 }
 
-struct Task* AddTask(struct Task taskToAdd) {
+void AddTask(struct Task taskToAdd, struct Task** head) {
 
 	struct Task* newTask = (struct Task*)malloc(sizeof(struct Task));
+
+	struct Task* current = *head;
+
 	if (newTask == NULL) {
-		printf("\n--Add task is unsuccessful due to ran out of memory!--\n");
+		printf("Add task is unsuccessful due to ran out of memory!");
 		exit(EXIT_FAILURE);
 	}
 
@@ -154,7 +145,16 @@ struct Task* AddTask(struct Task taskToAdd) {
 	strcpy(newTask->Description, taskToAdd.Description);
 	newTask->NextTask = NULL;
 
-	return newTask;
+	if(*head == NULL) {
+		*head = newTask;
+	} 
+
+	else {
+		while(current->NextTask != NULL){
+        current = current->NextTask;
+		}
+		current->NextTask = newTask;
+	}
 }
 
 struct Task* DeleteTaskByTaskId(struct Task* head, int iD) {
