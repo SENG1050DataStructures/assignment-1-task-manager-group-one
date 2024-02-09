@@ -1,3 +1,13 @@
+/*
+* Filename:		taskmanager.c
+* Project:		Assignment 1
+* By:			Alysse Palmer, Curtis Wentzlaff, Yiu Cho Yuen
+* Date:			February 10th, 2024
+* Description:	This project utilises a console based user interface to allow users to input
+*				Task structs into a linked list, as well as provides the option to delete, search for,
+*				and print specific or all structs in the linked list. 
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
