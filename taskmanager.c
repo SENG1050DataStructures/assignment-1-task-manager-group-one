@@ -22,7 +22,6 @@ struct Task {
 	struct Task* NextTask;
 };
 
-/* Linked list function prototypes */
 int CreateTaskID(int* TaskIDToAdd, struct Task* head);
 struct Task CreateTask(int TaskIDToAdd);
 void AddTask(struct Task taskToAdd, struct Task** head);
@@ -30,24 +29,18 @@ struct Task* DeleteTaskByTaskId(struct Task* head, int iD);
 struct Task* findTaskByIndex(struct Task*, int);
 void printTasks(struct Task head);
 void freeList(struct Task* head);
-
-/* User input function prototypes */
 void getNumber(const char[], int*);
 void getString(const char[], char*);
 
 int main(void) {
-
 	int userInput = 0;
 	int loop = 1;
 
-	/* Linked List variables */
 	struct Task* head = NULL;
 	struct Task* temp2 = NULL;
 	int TaskIDToAdd = 0;
 
 	while (loop == 1) {
-
-		/* Display menu to user */
 		printf("\n===MENU===\n");
 		printf("Press 1 to Add Task\n");
 		printf("Press 2 to Delete Task\n");
@@ -72,7 +65,6 @@ int main(void) {
 
 			getNumber("\nEnter the Task ID of the task you want to delete.", &userInput);
 			head = DeleteTaskByTaskId(head, userInput);
-
 			break;
 		case 3: /*---------------------FIND TASK BY INDEX---------------------*/
 			if (head == NULL) {
@@ -86,16 +78,15 @@ int main(void) {
 				printf("\n--The Task at index %d cannot be found--\n", userInput);
 			}
 			else {
-				printf("-------------------------------------------\n");
+				printf("\n-------------------------------------------\n");
 				printf("Task ID: %d\nTitle: %s\nDescription: %s\n", temp2->TaskID, temp2->Title, temp2->Description);
-				printf("-------------------------------------------\n\n");
+				printf("-------------------------------------------\n");
 			};
 
 			break;
 		case 4: /*---------------------PRINT ALL TASKS---------------------*/
 			if (head == NULL) {
-				printf("--There are currently no tasks defined. Please add some tasks before printing.--\n");
-
+				printf("\n--There are currently no tasks defined. Please add some tasks before printing.--\n");
 			}
 			else {
 				printTasks(*head);
@@ -111,14 +102,13 @@ int main(void) {
 		}
 	}
 
-	printf("------------------------------------------------------\n");
+	printf("\n------------------------------------------------------\n");
 	printf("Closing Program! Thank you for using the task manager.\n");
 	printf("------------------------------------------------------\n");
 	return 0;
 }
 
 int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
-
 	getNumber("\nEnter Task ID", TaskIDToAdd);
 
 	while (head != NULL) {
@@ -131,7 +121,6 @@ int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
 }
 
 struct Task CreateTask(int TaskIDToAdd) {
-
 	struct Task task = { 0 };
 	task.NextTask = NULL;
 	task.TaskID = TaskIDToAdd;
@@ -143,13 +132,12 @@ struct Task CreateTask(int TaskIDToAdd) {
 }
 
 void AddTask(struct Task taskToAdd, struct Task** head) {
-
 	struct Task* newTask = (struct Task*)malloc(sizeof(struct Task));
 
 	struct Task* current = *head;
 
 	if (newTask == NULL) {
-		printf("--Add task is unsuccessful due to ran out of memory!-- \n\n");
+		printf("\n--Add task is unsuccessful due to ran out of memory!--\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -169,10 +157,9 @@ void AddTask(struct Task taskToAdd, struct Task** head) {
 		current->NextTask = newTask;
 	}
 
-	printf("-------------------------------------------\n");
+	printf("\n-------------------------------------------\n");
 	printf("Task [%s] has been successfully added.\n", newTask->Title);
 	printf("-------------------------------------------\n");
-
 }
 
 struct Task* DeleteTaskByTaskId(struct Task* head, int iD) {
@@ -200,7 +187,7 @@ struct Task* DeleteTaskByTaskId(struct Task* head, int iD) {
 
 	free(temp);
 
-	printf("--------------------------------------------\n");
+	printf("\n--------------------------------------------\n");
 	printf("Task ID [%d] has been successfully deleted.\n", iD);
 	printf("--------------------------------------------\n");
 
@@ -220,13 +207,13 @@ struct Task* findTaskByIndex(struct Task* head, int index) {
 
 void printTasks(struct Task head) {
 	struct Task current = head;
+	printf("\n-------------------------------------------\n");
 	while (current.NextTask != NULL) {
-		printf("-------------------------------------------\n");
 		printf("Task ID: %d\nTitle: %s\nDescription: %s\n", current.TaskID, current.Title, current.Description);
+		printf("-------------------------------------------\n");
 		current = *(current.NextTask);
 	}
 
-	printf("-------------------------------------------\n");
 	printf("Task ID: %d\nTitle: %s\nDescription: %s\n", current.TaskID, current.Title, current.Description);
 	printf("-------------------------------------------\n");
 }
