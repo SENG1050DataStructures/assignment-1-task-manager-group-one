@@ -37,7 +37,7 @@ int main(void) {
 	int loop = 1;
 
 	struct Task* head = NULL;
-	struct Task* temp2 = NULL;
+	struct Task* temp = NULL;
 	int TaskIDToAdd = 0;
 
 	while (loop == 1) {
@@ -74,12 +74,12 @@ int main(void) {
 
 			getNumber("\nEnter the index you want to display", &userInput);
 
-			if ((temp2 = findTaskByIndex(head, userInput)) == NULL) {
+			if ((temp = findTaskByIndex(head, userInput)) == NULL) {
 				printf("\n--The Task at index %d cannot be found--\n", userInput);
 			}
 			else {
 				printf("\n-------------------------------------------\n");
-				printf("Task ID: %d\nTitle: %s\nDescription: %s\n", temp2->TaskID, temp2->Title, temp2->Description);
+				printf("Task ID: %d\nTitle: %s\nDescription: %s\n", temp->TaskID, temp->Title, temp->Description);
 				printf("-------------------------------------------\n");
 			};
 
