@@ -1,0 +1,24 @@
+======Assignment 1 Write-Up======
+An explanation of Yiu Cho Yuen’s portion of the code; the functionality to add a Task struct to the
+linked list.
+
+When the option to add a new item is selected from the menu in main(), the program enters the 
+createTaskID function. The user is prompted to enter a number through the getNumber function. Once 
+a valid number is entered, the program iterates through the linked list to ensure does not match 
+any existing TaskID. If a match is found, the createTaskID function is repeated until a valid 
+number that is unique to all existing TaskID numbers is given.
+
+With a valid TaskID returned to main(), the program calls the addTask function, which calls the 
+createTask function and a pointer to the current head of the linked list as arguments. The 
+createTask function creates a new Task and provides the NextTask value of NULL and the TaskID from 
+the previous user input. It then prompts the user for the Title and Description using the getString 
+function. The new Task is then returned to the addTask function.
+
+Inside the addTask function, a new block of heap memory is allocated for a new Task, exiting the 
+program if a memory issue is detected. The values of the data-members from the Task returned from 
+createTask are transferred to the newly allocated Task. Then, if the head of the list is currently 
+NULL, the newly allocated Task becomes the new head. Otherwise, the program iterates through the 
+list until the end is found and the new Task is connected as the new tail.
+
+A message is printed to the console to inform the user the Task was added successfully and the 
+program returns to main. 
