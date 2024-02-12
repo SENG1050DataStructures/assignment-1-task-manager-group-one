@@ -1,0 +1,13 @@
+﻿I am writing a code review of Alysse Palmer’s deleting task. This task is mainly performed by a function of “DeleteTaskByTaskId”. “DeleteTaskByTaskId” takes the pointer of the head and taskId as parameters. Within the function, it declares a pointer “current”  which is used to locate the node with a task ID that matches the task ID that the user inputted; It declares a pointer “temp” to store the node that needs to be deleted.
+
+
+The function will check if the head is the node that the user wants to delete. If so, the pointer of the head will be assigned to temp, then the pointer of the head will be updated to be the next node’s address. Otherwise, a loop will use the current pointer, start from the head, and look for any node that has an ID that matches the user inputted. When it finds the node that has the ID matched. Its pointer will be assigned to the temp, the current address will be updated to the next node’s address.
+
+
+Once, ID matching is done. If there is a match, it will call the free function to free the memory when the temp is located. Otherwise, it will print out an error message. Finally, the function will return the head address.
+
+
+In the main function, there is the handling of empty linked lists and resetting the head address.
+
+
+Overall, the task that Alysse created is very efficient with sufficient readability. It handles every failure scenario very well. It also comes with a clean success and failure message.
