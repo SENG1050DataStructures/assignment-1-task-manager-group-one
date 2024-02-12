@@ -1,0 +1,13 @@
+Assignment 1
+Alysse Palmer
+===============================================================================================
+
+During development, my classmate Curtis Wentzlaff programmed the task manager functionality to find a particular task based on an index received from the user.
+
+The first thing that occurs is that the head of the linked list is examined to determine if it is empty. If this is the case, a corresponding error message is printed to the user, and they are sent back to the main menu. The user is then prompted to enter the task index they wish to be found. This finally prompts the reader into the method function findTaskByIndex, which takes the head of the linked list, and the user's input as parameters. 
+
+The function creates a task pointer called temp, whose value becomes that of the head of the linked list. The function then iterates through the linked list starting at the head, until the intended index is hit (treating the linked list as if it were an array of Tasks, the head being treated as index 0). If at any point, the NextTask to be analyzed is NULL (or the end of the list) the function returns null. Otherwise, temp will end at the location of the Task at that index, and return that value to the main function.
+
+If the return value was NULL, an error message is displayed saying the task couldn't be found. Otherwise, the related Task and all other required information from that task are printed. Then the user is returned to the main menu.
+
+This functionality was very well-tuned, and there is not a line of code in the functionality that doesn't need to be there.
