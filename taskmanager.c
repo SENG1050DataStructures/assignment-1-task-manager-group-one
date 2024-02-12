@@ -184,12 +184,13 @@ struct Task* deleteTaskByTaskId(struct Task* head, int iD) {
 	if (temp == NULL) {
 		printf("\n--No Task found with ID: %d--\n", iD);
 	}
+	else {
+		free(temp);
 
-	free(temp);
-
-	printf("\n--------------------------------------------\n");
-	printf("Task ID [%d] has been successfully deleted.\n", iD);
-	printf("--------------------------------------------\n");
+		printf("\n--------------------------------------------\n");
+		printf("Task ID [%d] has been successfully deleted.\n", iD);
+		printf("--------------------------------------------\n");
+	}
 
 	return head;
 }
