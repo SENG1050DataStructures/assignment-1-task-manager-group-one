@@ -22,10 +22,10 @@ struct Task {
 	struct Task* NextTask;
 };
 
-int CreateTaskID(int* TaskIDToAdd, struct Task* head);
-struct Task CreateTask(int TaskIDToAdd);
-void AddTask(struct Task taskToAdd, struct Task** head);
-struct Task* DeleteTaskByTaskId(struct Task* head, int iD);
+int createTaskID(int* TaskIDToAdd, struct Task* head);
+struct Task createTask(int TaskIDToAdd);
+void addTask(struct Task taskToAdd, struct Task** head);
+struct Task* deleteTaskByTaskId(struct Task* head, int iD);
 struct Task* findTaskByIndex(struct Task*, int);
 void printTasks(struct Task head);
 void freeList(struct Task* head);
@@ -37,7 +37,7 @@ int main(void) {
 	int loop = 1;
 
 	struct Task* head = NULL;
-	struct Task* temp = NULL;
+	struct Task* tempNode = NULL;
 	int TaskIDToAdd = 0;
 
 	while (loop == 1) {
@@ -52,10 +52,10 @@ int main(void) {
 
 		switch (userInput) {
 		case 1: /*---------------------ADD TASK---------------------*/
-			while (CreateTaskID(&TaskIDToAdd, head) != 0) {
+			while (createTaskID(&TaskIDToAdd, head) != 0) {
 				printf("--TaskID is duplicated--\n\n");
 			}
-			AddTask(CreateTask(TaskIDToAdd), &head);
+			addTask(createTask(TaskIDToAdd), &head);
 			break;
 		case 2: /*---------------------DELETE TASK BY ID---------------------*/
 			if (head == NULL) {
@@ -64,7 +64,7 @@ int main(void) {
 			}
 
 			getNumber("\nEnter the Task ID of the task you want to delete.", &userInput);
-			head = DeleteTaskByTaskId(head, userInput);
+			head = deleteTaskByTaskId(head, userInput);
 			break;
 		case 3: /*---------------------FIND TASK BY INDEX---------------------*/
 			if (head == NULL) {
@@ -74,7 +74,7 @@ int main(void) {
 
 			getNumber("\nEnter the index you want to display", &userInput);
 
-			if ((temp = findTaskByIndex(head, userInput)) == NULL) {
+			if ((tempNode = findTaskByIndex(head, userInput)) == NULL) {
 				printf("\n--The Task at index %d cannot be found--\n", userInput);
 			}
 			else {
@@ -108,7 +108,7 @@ int main(void) {
 	return 0;
 }
 
-int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
+int createTaskID(int* TaskIDToAdd, struct Task* head) {
 	getNumber("\nEnter Task ID", TaskIDToAdd);
 
 	while (head != NULL) {
@@ -120,7 +120,7 @@ int CreateTaskID(int* TaskIDToAdd, struct Task* head) {
 	return 0;
 }
 
-struct Task CreateTask(int TaskIDToAdd) {
+struct Task createTask(int TaskIDToAdd) {
 	struct Task task = { 0 };
 	task.NextTask = NULL;
 	task.TaskID = TaskIDToAdd;
@@ -131,7 +131,7 @@ struct Task CreateTask(int TaskIDToAdd) {
 	return task;
 }
 
-void AddTask(struct Task taskToAdd, struct Task** head) {
+void addTask(struct Task taskToAdd, struct Task** head) {
 	struct Task* newTask = (struct Task*)malloc(sizeof(struct Task));
 
 	struct Task* current = *head;
@@ -162,7 +162,7 @@ void AddTask(struct Task taskToAdd, struct Task** head) {
 	printf("-------------------------------------------\n");
 }
 
-struct Task* DeleteTaskByTaskId(struct Task* head, int iD) {
+struct Task* deleteTaskByTaskId(struct Task* head, int iD) {
 	struct Task* current = head;
 	struct Task* temp = NULL;
 
