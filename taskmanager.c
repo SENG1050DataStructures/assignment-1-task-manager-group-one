@@ -5,7 +5,7 @@
 * Date:			February 10th, 2024
 * Description:	This project utilises a console based user interface to allow users to input
 *				Task structs into a linked list, as well as provides the option to delete, search for,
-*				and print specific or all structs in the linked list. 
+*				and print specific or all structs in the linked list.
 */
 
 #include <stdio.h>
@@ -53,7 +53,7 @@ int main(void) {
 		switch (userInput) {
 		case 1: /*---------------------ADD TASK---------------------*/
 			while (createTaskID(&TaskIDToAdd, head) != 0) {
-				printf("--TaskID is duplicated--\n\n");
+				printf("\n--TaskID is duplicated--\n");
 			}
 			addTask(createTask(TaskIDToAdd), &head);
 			break;
@@ -79,7 +79,7 @@ int main(void) {
 			}
 			else {
 				printf("\n-------------------------------------------\n");
-				printf("Task ID: %d\nTitle: %s\nDescription: %s\n", temp->TaskID, temp->Title, temp->Description);
+				printf("Task ID: %d\nTitle: %s\nDescription: %s\n", tempNode->TaskID, tempNode->Title, tempNode->Description);
 				printf("-------------------------------------------\n");
 			};
 
